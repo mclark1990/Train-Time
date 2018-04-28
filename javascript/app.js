@@ -15,6 +15,7 @@
 
   var database = firebase.database();
 
+  //click function to add input
   $("#add-train").on("click", function(event){
       event.preventDefault();
       
@@ -22,7 +23,8 @@
     var trainDest = $("#dest-input").val().trim();
     var trainTime = $("#time-input").val().trim();
     var trainFreq = $("#freq-input").val().trim();
-
+    trainFreq = parseInt(trainFreq);
+    
     var newTrain = {
         name:trainName,
         dest:trainDest,
@@ -36,13 +38,14 @@
 
     alert("New Train Added!");
 
+    //empties input fields
     $("#name-input").val("");
     $("#dest-input").val("");
     $("#time-input").val("");
     $("#freq-input").val("");
 
   })
-
+//firebase event to add train data to database and then push data to table
   database.ref().on("child_added", function(childSnapshot, prevChildKey){
 
     console.log(childSnapshot.val());
@@ -57,24 +60,35 @@
     console.log(trainTime);
     console.log(trainFreq);
 
-    var timeConverted = moment(trainTime, "HH:mm").subtract(1, "years");
-    console.log(timeConverted);
 
-    var diffTime = moment().diff(moment(timeConverted, "minutes"));
-    console.log(diffTime);
+ var firstTimeConverted = moment(trainTime, "HH:mm").subtract(1, "years");
+ console.log(firstTimeConverted);
 
-    var tRemainder = diffTime % trainFreq;
-    console.log(tRemainder);
+ // Current Time
+ //var currentTime = moment();
+ //console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
 
-    var tMinutesTillTrain = trainFreq - tRemainder;
-    console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+ // Difference between the times
+ var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+ console.log("DIFFERENCE IN TIME: " + diffTime);
 
-    var nextTrain = moment().add(tMinutesTillTrain, "minutes").format("HH:mm");
-    console.log("ARRIVAL TIME: " + moment(nextTrain).format("HH:mm"));
+ // Time apart
+ var tRemainder = diffTime % trainFreq;
+ console.log(tRemainder);
 
-    $("#schedule-table > tbody").append("<tr><td>" + trainName + "</td><td>" + trainDest + "</td><td>" +
-    trainFreq + "</td><td>" + nextTrain + "</td><td>" + tMinutesTillTrain + "</td><td>");
-  });
+ // Minutes until train
+ var tMinutesTillTrain = trainFreq - tRemainder;
+ console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+
+ // Next Train
+ var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+ console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+
+ //pushes variables data above to the schedule table
+ $("#schedule-table > tbody").append("<tr><td>" + trainName + "</td><td>" + trainDest + "</td><td>" +
+ trainFreq + "</td><td>" + nextTrain.format("HH:mm") + "</td><td>" + tMinutesTillTrain + "</td>");
+
+});
   
 
 
