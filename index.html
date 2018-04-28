@@ -6,8 +6,10 @@
     <title>Train Schdule!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="assets/style.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="assets/style.css">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 </head>
 <body>
 
@@ -20,7 +22,7 @@
 
         <div class = "row"><!--row begin-->
             <div class = "col-xs-12"><!--column begin-->
-                <div class = "panel panel-primary">
+                <div class = "panel panel-primary"><!--output panel begin-->
                     <div class = "panel-heading">
                     <strong>Current Train Schedule</strong>
                     </div>
@@ -36,23 +38,13 @@
                             <th>Minutes Away</th>
                             </tr>
                             </thead>
-            
                             <tbody>
-                            <tr>
-                            <td id = "name"></td>
-                            <td id = "destination"></td>
-                            <td id = "frequency"></td>
-                            <td id = "arrival"></td>
-                            <td id = "away"></td>
-                            </tr>
                             </tbody>
                         </table>
                     </div>
-                </div>
-        
-        
+                </div><!--output panel end-->
        
-                <div class = "panel panel-primary">
+                <div class = "panel panel-primary"><!--input panel begin-->
                     <div class = "panel-heading">
                     <strong>Add Train</strong>
                     </div>
@@ -70,7 +62,7 @@
                             </div>
             
                             <div class = "form-group">
-                            <label for = "first-train-time">First Train Time (HH:mm - military time</label>
+                            <label for = "first-train-time">First Train Time (HH:mm - military time)</label>
                             <input type = "train-time" class = "form-control" id = "time-input">
                             </div>
         
@@ -82,11 +74,13 @@
                             <button class = "btn btn-primary" id = "add-train" type = "submit">Submit</button>
                         </form> 
                     </div>
-                </div>
+                </div><!--input panel end-->
             </div><!--column end-->
         </div><!--row end-->
 
     </div><!--container end-->
     
+
+    <script src = "javascript/app.js"></script>
 </body>
 </html>
